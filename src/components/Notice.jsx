@@ -1,5 +1,5 @@
 function Notice({ type, children }) {
-  return <div className="notice">{children}</div>;
+  return <div className={`notice notice-${type}`}>{children}</div>;
 }
 
 export default Notice;

@@ -7,6 +7,8 @@ const events = [
     eventType: "Workshop",
     seats: 12,
     online: false,
+    featured: true,
+    registrationOpen: true,
   },
   {
     id: 2,
@@ -16,6 +18,8 @@ const events = [
     eventType: "Webinar",
     seats: 20,
     online: true,
+    featured: true,
+    registrationOpen: true,
   },
   {
     id: 3,
@@ -25,6 +29,8 @@ const events = [
     eventType: "Meetup",
     seats: 0,
     online: false,
+    featured: false,
+    registrationOpen: false,
   },
   {
     id: 4,
@@ -34,6 +40,8 @@ const events = [
     eventType: "Unterricht",
     seats: 20,
     online: false,
+    featured: true,
+    registrationOpen: false,
   },
 ];
 
