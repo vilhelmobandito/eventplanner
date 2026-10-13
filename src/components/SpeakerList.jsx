@@ -11,7 +11,7 @@ export default function SpeakerList() {
         company="WebDev GmbH"
         online={true}
       />
-      <SpeakerCard
+      {/* <SpeakerCard
         name="Leonora Musterfrau"
         specialField="Html"
         company="Santoro GmbH"
@@ -22,7 +22,7 @@ export default function SpeakerList() {
         specialField="Frontend"
         company="Frago GmbH"
         online={true}
-      />
+      /> */}
     </section>
   );
 }
