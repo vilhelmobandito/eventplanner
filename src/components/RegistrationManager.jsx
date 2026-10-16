@@ -1,4 +1,5 @@
 import { useState } from "react";
+import RegistrationForm from "./RegistrationForm";
 
 function RegistrationManager() {
   const [formData, setFormData] = useState({
@@ -60,41 +61,12 @@ function RegistrationManager() {
     <section>
       <h2>Anmeldungen</h2>
 
-      {error && <p className="form-error">{error}</p>}
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="email">E-Mail</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="participants">Teilnehmer</label>
-          <input
-            type="number"
-            id="participants"
-            name="participants"
-            value={formData.participants}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">Anmelden</button>
-      </form>
+      <RegistrationForm
+        formData={formData}
+        error={error}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+      />
 
       <h3>Aktuelle Anmeldungen</h3>
 
