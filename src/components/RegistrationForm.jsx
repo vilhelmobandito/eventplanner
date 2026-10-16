@@ -33,8 +33,17 @@ function RegistrationForm({ formData, error, events, onChange, onSubmit }) {
         >
           <option value="">Bitte auswählen!</option>
           {events.map((event) => (
-            <option key={event.id} value={event.id}>
+            <option
+              key={event.id}
+              value={event.id}
+              disabled={event.seats === 0 || !event.registrationOpen}
+            >
               {event.title}
+              {event.seats === 0
+                ? " - ausgebucht"
+                : !event.registrationOpen
+                  ? " - Anmeldung geschlossen"
+                  : ""}
             </option>
           ))}
         </select>

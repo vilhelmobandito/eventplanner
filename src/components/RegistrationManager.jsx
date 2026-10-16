@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RegistrationForm from "./RegistrationForm";
 
 import events from "../data/events";
@@ -14,11 +14,29 @@ function RegistrationManager() {
   const [registrations, setRegistrations] = useState([]);
   const [error, setError] = useState("");
 
-  let participantsCount = 0;
+  const participantsCount = registrations.reduce(
+    (sum, registration) => sum + registration.participants,
+    0,
+  );
 
-  for (const registration of registrations) {
-    participantsCount += Number(registration.participants);
-  }
+  useEffect(() => {
+    const summary = events.map((event) => {
+      const eventRegistrations = registrations.filter(
+        (r) => r.eventId === event.id,
+      );
+      const totalParticipants = eventRegistrations.reduce(
+        (sum, r) => sum + r.participants,
+        0,
+      );
+      return {
+        Event: event.title,
+        Anmeldungen: eventRegistrations.length,
+        Teilnehmer: totalParticipants,
+      };
+    });
+
+    console.table(summary);
+  }, [registrations]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -76,6 +94,12 @@ function RegistrationManager() {
     });
   }
 
+  function handleDeleteRegistration(id) {
+    setRegistrations(
+      registrations.filter((registration) => registration.id !== id),
+    );
+  }
+
   return (
     <section>
       <h2>Anmeldungen</h2>
@@ -93,6 +117,8 @@ function RegistrationManager() {
       <RegistrationList
         registrations={registrations}
         participantsCount={participantsCount}
+        events={events}
+        onDelete={handleDeleteRegistration}
       />
     </section>
   );
