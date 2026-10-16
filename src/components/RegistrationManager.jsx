@@ -1,22 +1,41 @@
 import { useState } from "react";
 import RegistrationForm from "./RegistrationForm";
 
+import events from "../data/events";
+import RegistrationList from "./RegistrationList";
+
 function RegistrationManager() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     participants: 1,
+    eventId: "",
   });
-
   const [registrations, setRegistrations] = useState([]);
   const [error, setError] = useState("");
+
+  let participantsCount = 0;
+
+  for (const registration of registrations) {
+    participantsCount += Number(registration.participants);
+  }
 
   function handleChange(event) {
     const { name, value } = event.target;
 
+    let newValue = value;
+
+    if (name === "participants") {
+      newValue = Number(value);
+    }
+
+    if (name === "eventId") {
+      newValue = value === "" ? "" : Number(value);
+    }
+
     setFormData({
       ...formData,
-      [name]: name === "participants" ? Number(value) : value,
+      [name]: newValue,
     });
   }
 
@@ -31,8 +50,12 @@ function RegistrationManager() {
     }
 
     if (formData.email.trim() === "") {
-      setError("Bitte geben Sie Ihre E-Mail-Adresse an!");
+      setError("Bitte geben Sie eine E-Mail-Adresse an!");
       return;
+    }
+
+    if (formData.eventId === "") {
+      setError("Bitte wählen Sie eine Veranstaltung aus!");
     }
 
     const newRegistration = {
@@ -40,6 +63,7 @@ function RegistrationManager() {
       name: formData.name,
       email: formData.email,
       participants: formData.participants,
+      eventId: formData.eventId,
     };
 
     setRegistrations([...registrations, newRegistration]);
@@ -48,14 +72,9 @@ function RegistrationManager() {
       name: "",
       email: "",
       participants: 1,
+      eventId: "",
     });
   }
-
-  // Total Personen von alle registations
-  const totalParticipants = registrations.reduce(
-    (sum, registration) => sum + registration.participants,
-    0,
-  );
 
   return (
     <section>
@@ -64,35 +83,17 @@ function RegistrationManager() {
       <RegistrationForm
         formData={formData}
         error={error}
+        events={events}
         onChange={handleChange}
         onSubmit={handleSubmit}
       />
 
       <h3>Aktuelle Anmeldungen</h3>
 
-      <p>
-        Anmeldungen:{" "}
-        {registrations.length === 0
-          ? "Noch keine Anmeldungen vorhanden."
-          : registrations.length}
-      </p>
-
-      <p>
-        Personen:{" "}
-        {registrations.length === 0
-          ? "Noch kein Mensch angemeldet."
-          : totalParticipants}
-      </p>
-
-      <div className="registration-list">
-        {registrations.map((registration) => (
-          <article key={registration.id} className="registration-card">
-            <h4>{registration.name}</h4>
-            <p>{registration.email}</p>
-            <p>Teilnehmer: {registration.participants}</p>
-          </article>
-        ))}
-      </div>
+      <RegistrationList
+        registrations={registrations}
+        participantsCount={participantsCount}
+      />
     </section>
   );
 }

@@ -1,4 +1,4 @@
-function RegistrationForm({ formData, error, onChange, onSubmit }) {
+function RegistrationForm({ formData, error, events, onChange, onSubmit }) {
   return (
     <form onSubmit={onSubmit} noValidate>
       {error && <p className="form-error">{error}</p>}
@@ -22,6 +22,24 @@ function RegistrationForm({ formData, error, onChange, onSubmit }) {
           onChange={onChange}
         />
       </div>
+
+      <div>
+        <label htmlFor="eventId">Veranstalgung</label>
+        <select
+          name="eventId"
+          id="eventId"
+          value={formData.eventId}
+          onChange={onChange}
+        >
+          <option value="">Bitte auswählen!</option>
+          {events.map((event) => (
+            <option key={event.id} value={event.id}>
+              {event.title}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div>
         <label htmlFor="participants">Teilnehmer</label>
         <input
